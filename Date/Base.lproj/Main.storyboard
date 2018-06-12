@@ -27,7 +27,8 @@
                                 <locale key="locale" localeIdentifier="zh"/>
                             </datePicker>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xh3-F9-MSz">
-                                <rect key="frame" x="172.5" y="561" width="30.5" height="30"/>
+                                <rect key="frame" x="30" y="555" width="315" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="開始"/>
                                 <connections>
                                     <action selector="startClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mC2-Up-7VM"/>
@@ -109,7 +110,7 @@
                             <constraint firstItem="bD0-bl-fk5" firstAttribute="top" secondItem="fJC-QQ-V5l" secondAttribute="bottom" constant="30" id="2fE-Pk-e6s"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Xh3-F9-MSz" secondAttribute="bottom" constant="76" id="72e-JE-7fL"/>
                             <constraint firstItem="Kng-Vv-NJz" firstAttribute="top" secondItem="25a-vf-2Xl" secondAttribute="bottom" constant="30" id="EQF-Lp-G9R"/>
-                            <constraint firstItem="Xh3-F9-MSz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="172" id="EzI-ZA-hxn"/>
+                            <constraint firstItem="Xh3-F9-MSz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="EzI-ZA-hxn"/>
                             <constraint firstItem="Kng-Vv-NJz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="QQw-vN-G9t"/>
                             <constraint firstItem="25a-vf-2Xl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="UAp-Fd-DmG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bD0-bl-fk5" secondAttribute="trailing" constant="30" id="YKB-gV-hKw"/>
@@ -120,7 +121,7 @@
                             <constraint firstItem="Kng-Vv-NJz" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="10" id="p6A-nk-upq"/>
                             <constraint firstItem="25a-vf-2Xl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="sMe-b9-Osz"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fJC-QQ-V5l" secondAttribute="trailing" constant="30" id="wM1-cf-N67"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Xh3-F9-MSz" secondAttribute="trailing" constant="172" id="yK2-tA-eGK"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Xh3-F9-MSz" secondAttribute="trailing" constant="30" id="yK2-tA-eGK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

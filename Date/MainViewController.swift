@@ -91,31 +91,46 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
         switch selectIndex {
         case 0:
             if myArr.index(of: gameArr[1])! > myArr.index(of: eventStr)!{
-                showAlert(title: "答對了", msg: "", confirm: "下一題")
+                let alert = UIAlertController(title: "答對了", message: "", preferredStyle: .alert)
+                let action = UIAlertAction(title: "下一題", style: .cancel, handler: {
+                    (action: UIAlertAction!) -> Void in
+                    self.nextRound()
+                    self.eventStr = self.takeStrAndRemoveElem()
+                })
+                alert.addAction(action)
+                self.present(alert, animated: true, completion: nil)
             }else{
-                showAlert(title: "", msg: "答錯了", confirm: "下一題")
+                showAlert(title: "", msg: "答錯了", confirm: "重來")
             }
-            nextRound()
-            eventStr = takeStrAndRemoveElem()
             break
         case gameArr.count - 1:
             if myArr.index(of: gameArr[gameArr.count-2])! < myArr.index(of: eventStr)!{
-                showAlert(title: "答對了", msg: "", confirm: "下一題")
+                let alert = UIAlertController(title: "答對了", message: "", preferredStyle: .alert)
+                let action = UIAlertAction(title: "下一題", style: .cancel, handler: {
+                    (action: UIAlertAction!) -> Void in
+                    self.nextRound()
+                    self.eventStr = self.takeStrAndRemoveElem()
+                })
+                alert.addAction(action)
+                self.present(alert, animated: true, completion: nil)
             }else{
-                showAlert(title: "", msg: "答錯了", confirm: "下一題")
+                showAlert(title: "", msg: "答錯了", confirm: "重來")
             }
-            nextRound()
-            eventStr = takeStrAndRemoveElem()
             break
         default:
             if (myArr.index(of: gameArr[selectIndex-1])! < myArr.index(of: eventStr)!) &&
                (myArr.index(of: gameArr[selectIndex+1])! > myArr.index(of: eventStr)!){
-                showAlert(title: "答對了", msg: "", confirm: "下一題")
+                let alert = UIAlertController(title: "答對了", message: "", preferredStyle: .alert)
+                let action = UIAlertAction(title: "下一題", style: .cancel, handler: {
+                    (action: UIAlertAction!) -> Void in
+                    self.nextRound()
+                    self.eventStr = self.takeStrAndRemoveElem()
+                })
+                alert.addAction(action)
+                self.present(alert, animated: true, completion: nil)
             }else{
-                showAlert(title: "", msg: "答錯了", confirm: "下一題")
+                showAlert(title: "", msg: "答錯了", confirm: "重來")
             }
-            nextRound()
-            eventStr = takeStrAndRemoveElem()
             break
         }
     }
