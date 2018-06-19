@@ -53,15 +53,9 @@ func dateFmatToInt(myDate:Date) -> (m:Int,d:Int){
     return (mInt,dInt)
 }
 
-
-
-
-
-
-/**
- 0   = 01/01
- 30  = 01/31
- 31  = 02/01
- 59  = 02/29
- 366 = 12/31
- */
+func translate(d:Date) -> String{
+    let myDateformat = DateFormatter()
+    myDateformat.dateFormat = "YYYY/MM/dd"
+    let str = myDateformat.string(from: d)
+    return str
+}

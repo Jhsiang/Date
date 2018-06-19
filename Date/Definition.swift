@@ -25,36 +25,79 @@ func randInt(num:Int) -> Int{
 }
 
 func myArrClean(){
-    myArr = Array(repeating: "", count: 366)
+    myArr = Array<EventClass>()
 }
 
-func insertSpace(arr:Array<String>) -> Array<String> {
-    var resultArr = Array<String>()
+func insertSpace(arr:Array<EventClass>) -> Array<EventClass> {
+    var resultArr = Array<EventClass>()
+    let emptyElem = EventClass()
+    emptyElem.date = ""
+    emptyElem.event = ""
     for i in 0...arr.count - 1{
-        resultArr.append("")
+        resultArr.append(emptyElem)
         resultArr.append(arr[i])
     }
-    resultArr.append("")
+    resultArr.append(emptyElem)
     return resultArr
 }
 
-func quickSorting(arr:Array<String>) -> Array<String>{
+func quickSorting(arr:Array<EventClass>) -> Array<EventClass>{
     guard arr.count > 1 else { return arr }
     let pivotSelect = arr.count/2
     let pivot = arr[pivotSelect]
     let pivotArray = [pivot]
-    var less = Array<String>()
-    var greater = Array<String>()
+    var less = Array<EventClass>()
+    var greater = Array<EventClass>()
     for i in 0...arr.count - 1
     {
-        if i != pivotSelect && myArr.index(of: arr[i])! <= myArr.index(of: pivot)!
+        if i != pivotSelect && arr[i].date <= pivot.date
         {
             less.append(arr[i])
         }
-        if i != pivotSelect && myArr.index(of: arr[i])! > myArr.index(of: pivot)!
+        if i != pivotSelect && arr[i].date > pivot.date
         {
             greater.append(arr[i])
         }
     }
     return quickSorting(arr:less) + pivotArray + quickSorting(arr:greater)
 }
+
+func saveEventClass(eveClas:Array<EventClass>){
+
+    var eventArr = Array<String>()
+    var dateArr = Array<String>()
+    for i in 0...eveClas.count - 1{
+        eventArr.append(eveClas[i].event)
+        dateArr.append(eveClas[i].date)
+    }
+
+    UserDefaults.standard.set(eventArr, forKey: PREF_KEY_SAVE_EVENT_ARRAY)
+    UserDefaults.standard.set(dateArr, forKey: PREF_KEY_SAVE_DATE_ARRAY)
+}
+
+func loadEventClass() -> Array<EventClass>{
+
+    var resultArr = Array<EventClass>()
+    if let eventArr = UserDefaults.standard.stringArray(forKey: PREF_KEY_SAVE_EVENT_ARRAY) ,
+        let dateArr = UserDefaults.standard.stringArray(forKey: PREF_KEY_SAVE_DATE_ARRAY){
+        for i in 0...eventArr.count - 1{
+            let eveclas = EventClass()
+            eveclas.event = eventArr[i]
+            eveclas.date = dateArr[i]
+            resultArr.append(eveclas)
+        }
+        return resultArr
+    }
+
+    return resultArr
+}
+
+func saveEventClean(){
+    UserDefaults.standard.removeObject(forKey: PREF_KEY_SAVE_EVENT_ARRAY)
+    UserDefaults.standard.removeObject(forKey: PREF_KEY_SAVE_DATE_ARRAY)
+}
+
+
+
+
+

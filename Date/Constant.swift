@@ -9,3 +9,4 @@
 import Foundation
 
 let PREF_KEY_SAVE_EVENT_ARRAY = "pref_key_save_event_array"
+let PREF_KEY_SAVE_DATE_ARRAY = "pref_key_save_date_array"

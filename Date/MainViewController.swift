@@ -12,9 +12,9 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
 
     var selectIndex:Int = 0
 
-    var eventStr = ""
-    var eventArr = Array<String>()
-    var gameArr = Array<String>()
+    var newEvent = EventClass()
+    var eventArr = Array<EventClass>()
+    var gameArr = Array<EventClass>()
 
     @IBOutlet var myCollectionView: UICollectionView!
 
@@ -24,7 +24,8 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        eventArr = myArr.filter{$0 != ""}
+        eventArr = myArr
+        myCollectionView.isScrollEnabled = false
         firstStart()
     }
 
@@ -35,28 +36,32 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
             showAlert(title: "題目已出完", msg: "", confirm: "確定")
             return
         }
-        eventStr = takeStrAndRemoveElem()
+        (newEvent) = takeStrAndRemoveElem()
         nextRound()
-        eventStr = takeStrAndRemoveElem()
+        (newEvent) = takeStrAndRemoveElem()
     }
 
     func nextRound(){
-        gameArr = gameArr.filter{$0 != ""}
-        gameArr.append(eventStr)
+        gameArr = gameArr.filter{$0.event != ""}
+        gameArr.append(newEvent)
         gameArr = quickSorting(arr: gameArr)
         gameArr = insertSpace(arr: gameArr)
         myCollectionView.reloadData()
     }
 
-    func takeStrAndRemoveElem() -> String{
+    func takeStrAndRemoveElem() -> EventClass{
+        let myNewEvent = EventClass()
+        myNewEvent.event = ""
+        myNewEvent.date = ""
         guard eventArr.count > 0 else {
             showAlert(title: "題目已出完", msg: "", confirm: "確定")
-            return ""
+            return myNewEvent
         }
         let showEventIndex = randInt(num: eventArr.count)
-        let myStr = eventArr[showEventIndex]
-        eventArr = eventArr.filter{$0 != myStr}
-        return myStr
+        myNewEvent.event = eventArr[showEventIndex].event
+        myNewEvent.date = eventArr[showEventIndex].date
+        eventArr = eventArr.filter{$0.event != myNewEvent.event}
+        return myNewEvent
     }
 
     func showAlert(title:String,msg:String,confirm:String){
@@ -84,18 +89,18 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
     }
 
     @IBAction func enterClick(_ sender: UIButton) {
-        guard eventStr != "" else {
+        guard newEvent.event != "" else {
             showAlert(title: "題目已出完", msg: "", confirm: "確定")
             return
         }
         switch selectIndex {
         case 0:
-            if myArr.index(of: gameArr[1])! > myArr.index(of: eventStr)!{
+            if gameArr[1].date > newEvent.date {
                 let alert = UIAlertController(title: "答對了", message: "", preferredStyle: .alert)
                 let action = UIAlertAction(title: "下一題", style: .cancel, handler: {
                     (action: UIAlertAction!) -> Void in
                     self.nextRound()
-                    self.eventStr = self.takeStrAndRemoveElem()
+                    self.newEvent = self.takeStrAndRemoveElem()
                 })
                 alert.addAction(action)
                 self.present(alert, animated: true, completion: nil)
@@ -104,12 +109,12 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
             }
             break
         case gameArr.count - 1:
-            if myArr.index(of: gameArr[gameArr.count-2])! < myArr.index(of: eventStr)!{
+            if gameArr[gameArr.count-2].date < newEvent.date {
                 let alert = UIAlertController(title: "答對了", message: "", preferredStyle: .alert)
                 let action = UIAlertAction(title: "下一題", style: .cancel, handler: {
                     (action: UIAlertAction!) -> Void in
                     self.nextRound()
-                    self.eventStr = self.takeStrAndRemoveElem()
+                    self.newEvent = self.takeStrAndRemoveElem()
                 })
                 alert.addAction(action)
                 self.present(alert, animated: true, completion: nil)
@@ -118,13 +123,13 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
             }
             break
         default:
-            if (myArr.index(of: gameArr[selectIndex-1])! < myArr.index(of: eventStr)!) &&
-               (myArr.index(of: gameArr[selectIndex+1])! > myArr.index(of: eventStr)!){
+            if gameArr[selectIndex-1].date < newEvent.date &&
+               gameArr[selectIndex+1].date > newEvent.date {
                 let alert = UIAlertController(title: "答對了", message: "", preferredStyle: .alert)
                 let action = UIAlertAction(title: "下一題", style: .cancel, handler: {
                     (action: UIAlertAction!) -> Void in
                     self.nextRound()
-                    self.eventStr = self.takeStrAndRemoveElem()
+                    self.newEvent = self.takeStrAndRemoveElem()
                 })
                 alert.addAction(action)
                 self.present(alert, animated: true, completion: nil)
@@ -138,11 +143,15 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
     @IBAction func leftClick(_ sender: UIButton) {
         selectIndex -= selectIndex > 0 ? 2 : 0
         myCollectionView.reloadData()
+        let index = IndexPath(item: selectIndex, section: 0)
+        myCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
     }
 
     @IBAction func rightClick(_ sender: UIButton) {
         selectIndex += selectIndex < gameArr.count - 1 ? 2 : 0
         myCollectionView.reloadData()
+        let index = IndexPath(item: selectIndex, section: 0)
+        myCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
     }
 
 
@@ -155,9 +164,9 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cardCell", for: indexPath) as! MyCollectionViewCell
         cell.layer.borderWidth = indexPath.item == selectIndex ? 1 : 0
         cell.cardLabel.adjustsFontSizeToFitWidth = true
-        cell.cardLabel.text = gameArr[indexPath.item] == "" ? "" : gameArr[indexPath.item] + "\n" + numToDate(i: myArr.index(of: gameArr[indexPath.item])!)
+        cell.cardLabel.text = gameArr[indexPath.item].event == "" ? "" : gameArr[indexPath.item].event + "\n" + gameArr[indexPath.item].date
         if indexPath.item == selectIndex{
-            cell.cardLabel.text = eventStr
+            cell.cardLabel.text = newEvent.event
         }
         cell.backgroundColor = indexPath.item == selectIndex ? UIColor.yellow : UIColor.white
         return cell
@@ -167,6 +176,10 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
 //MARK: - UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 5
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

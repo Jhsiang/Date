@@ -8,7 +8,7 @@
 
 import UIKit
 
-var myArr:Array<String> = Array(repeating: "", count: 366)
+var myArr = Array<EventClass>()
 
 class SettingViewController: UIViewController,UITextFieldDelegate {
 
@@ -43,13 +43,8 @@ class SettingViewController: UIViewController,UITextFieldDelegate {
         myDP.addTarget(self, action: #selector(dpValueChange), for: .valueChanged)
 
         // count label
-        if let saveArr = UserDefaults.standard.stringArray(forKey: PREF_KEY_SAVE_EVENT_ARRAY){
-            myArr = saveArr
-            let eventNum = saveArr.filter{$0 != ""}
-            countLabel.text = "已儲存的事件: \(eventNum.count)件"
-        }else{
-            UserDefaults.standard.set(myArr, forKey: PREF_KEY_SAVE_EVENT_ARRAY)
-        }
+        myArr = loadEventClass()
+        countLabel.text = "已儲存的事件: \(myArr.count)件"
 
         // 註冊鍵盤出現/消失事件
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(note:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -65,13 +60,8 @@ class SettingViewController: UIViewController,UITextFieldDelegate {
 
 //MARK: - Define Function
     func countLabelRefresh(){
-        if let saveArr = UserDefaults.standard.stringArray(forKey: PREF_KEY_SAVE_EVENT_ARRAY){
-            let eventNum = saveArr.filter{$0 != ""}
-            countLabel.text = "已儲存的事件: \(eventNum.count)件"
-        }else{
-            UserDefaults.standard.set(myArr, forKey: PREF_KEY_SAVE_EVENT_ARRAY)
-            countLabel.text = "已儲存的事件: 0件"
-        }
+        myArr = loadEventClass()
+        countLabel.text = "已儲存的事件: \(myArr.count)件"
     }
 
     func showAlert(title:String,msg:String,confirm:String){
@@ -133,17 +123,35 @@ class SettingViewController: UIViewController,UITextFieldDelegate {
             return
         }
 
-        if let tfText = myTF.text{
-            let checkRepeat = myArr.filter{$0 == tfText}
-            if checkRepeat.count == 0 {
-                let (month,day) = dateFmatToInt(myDate: myDP.date)
-                let arrLoc = dateToNum(m: month, d: day)
-                if myArr[arrLoc] != ""{
-                    showAlert(title: "", msg: "原日期已有資料", confirm: "確認覆寫")
+        if let eventStr = myTF.text{
+            let checkEvent = myArr.filter{$0.event == eventStr}
+            if checkEvent.count == 0 {
+                let dateStr = translate(d: myDP.date)
+                let checkDate = myArr.filter(){$0.date == dateStr}
+                if checkDate.count == 0{
+                    let event = EventClass()
+                    event.event = eventStr
+                    event.date = dateStr
+                    myArr.append(event)
+                    saveEventClass(eveClas: myArr)
+                    countLabelRefresh()
+                }else{
+                    let alert = UIAlertController(title:"" , message: "覆蓋"+"【"+myArr.filter{$0.date == dateStr}[0].event+"】", preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                    let okAction = UIAlertAction(title: "覆蓋", style: .default, handler: {
+                        (action:UIAlertAction!) -> Void in
+                        let event = EventClass()
+                        event.event = eventStr
+                        event.date = dateStr
+                        myArr = myArr.filter{$0.date != dateStr}
+                        myArr.append(event)
+                        saveEventClass(eveClas: myArr)
+                        self.countLabelRefresh()
+                    })
+                    alert.addAction(cancelAction)
+                    alert.addAction(okAction)
+                    self.present(alert, animated: true, completion: nil)
                 }
-                myArr[arrLoc] = tfText
-                UserDefaults.standard.set(myArr, forKey: PREF_KEY_SAVE_EVENT_ARRAY)
-                countLabelRefresh()
             }else{
                 showAlert(title: "已有相同的事件", msg: "", confirm: "確認")
             }
@@ -158,7 +166,7 @@ class SettingViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func cleanClick(_ sender: UIButton) {
         myArrClean()
-        UserDefaults.standard.removeObject(forKey: PREF_KEY_SAVE_EVENT_ARRAY)
+        saveEventClean()
         countLabelRefresh()
     }
 
