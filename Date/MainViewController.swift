@@ -18,12 +18,28 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
 
     @IBOutlet var myCollectionView: UICollectionView!
 
+    @IBOutlet var upBtn: UIButton!
+    @IBOutlet var downBtn: UIButton!
+    @IBOutlet var lefBtn: UIButton!
+    @IBOutlet var rightBtn: UIButton!
+    @IBOutlet var enterBtn: UIButton!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.backgroundColor = UIColor.yellow
+        if let navigation = self.navigationController?.view{
+            navigation.backgroundColor = UIColor.green
+        }
+        upBtn.setImage(Graphics.getUpImage(), for: UIControlState.normal)
+        downBtn.setImage(Graphics.getDownImage(), for: UIControlState.normal)
+        lefBtn.setImage(Graphics.getLeftImage(), for: .normal)
+        rightBtn.setImage(Graphics.getRightImage(), for: .normal)
+        enterBtn.setImage(Graphics.getEnterImage(), for: .normal)
+
         eventArr = myArr
         myCollectionView.isScrollEnabled = false
         firstStart()
@@ -147,7 +163,21 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
         myCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
     }
 
+    @IBAction func upClick(_ sender: UIButton) {
+        selectIndex -= selectIndex > 0 ? 2 : 0
+        myCollectionView.reloadData()
+        let index = IndexPath(item: selectIndex, section: 0)
+        myCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
+    }
+
     @IBAction func rightClick(_ sender: UIButton) {
+        selectIndex += selectIndex < gameArr.count - 1 ? 2 : 0
+        myCollectionView.reloadData()
+        let index = IndexPath(item: selectIndex, section: 0)
+        myCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
+    }
+
+    @IBAction func downClick(_ sender: UIButton) {
         selectIndex += selectIndex < gameArr.count - 1 ? 2 : 0
         myCollectionView.reloadData()
         let index = IndexPath(item: selectIndex, section: 0)
@@ -168,7 +198,7 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
         if indexPath.item == selectIndex{
             cell.cardLabel.text = newEvent.event
         }
-        cell.backgroundColor = indexPath.item == selectIndex ? UIColor.yellow : UIColor.white
+        cell.backgroundColor = indexPath.item == selectIndex ? UIColor.yellow : UIColor.clear
         return cell
     }
 

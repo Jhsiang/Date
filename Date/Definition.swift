@@ -92,7 +92,7 @@ func loadEventClass() -> Array<EventClass>{
     return resultArr
 }
 
-func saveEventClean(){
+func cleanEvent(){
     UserDefaults.standard.removeObject(forKey: PREF_KEY_SAVE_EVENT_ARRAY)
     UserDefaults.standard.removeObject(forKey: PREF_KEY_SAVE_DATE_ARRAY)
 }

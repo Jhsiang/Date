@@ -33,7 +33,12 @@ class SettingViewController: UIViewController,UITextFieldDelegate {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        
+//        UIView.animate(withDuration: 3) {
+//            <#code#>
+//        }
 
+        //animateWithDuration
         // 字寬
         titleLabel.adjustsFontSizeToFitWidth = true
         myTF.adjustsFontSizeToFitWidth = true
@@ -166,7 +171,7 @@ class SettingViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func cleanClick(_ sender: UIButton) {
         myArrClean()
-        saveEventClean()
+        cleanEvent()
         countLabelRefresh()
     }
 
