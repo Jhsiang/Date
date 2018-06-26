@@ -24,16 +24,26 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
     @IBOutlet var rightBtn: UIButton!
     @IBOutlet var enterBtn: UIButton!
 
+    @IBOutlet var bgIV: UIImageView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.backgroundColor = UIColor.yellow
-        if let navigation = self.navigationController?.view{
-            navigation.backgroundColor = UIColor.green
-        }
+
+        // 所有navigationbar 透明化
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationItem.title = "請依日期 排列事件"
+
+
+        self.view.backgroundColor = UIColor(red: 0.9, green: 1, blue: 0.9, alpha: 1)
+        bgIV.image = UIImage(named: "background.jpg")
+        bgIV.contentMode = UIViewContentMode.scaleAspectFill
+        bgIV.alpha = 0.1
+
         upBtn.setImage(Graphics.getUpImage(), for: UIControlState.normal)
         downBtn.setImage(Graphics.getDownImage(), for: UIControlState.normal)
         lefBtn.setImage(Graphics.getLeftImage(), for: .normal)
@@ -193,6 +203,7 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cardCell", for: indexPath) as! MyCollectionViewCell
         cell.layer.borderWidth = indexPath.item == selectIndex ? 1 : 0
+        //cell.cardLabel.font = UIFont.boldSystemFont(ofSize: 14)
         cell.cardLabel.adjustsFontSizeToFitWidth = true
         cell.cardLabel.text = gameArr[indexPath.item].event == "" ? "" : gameArr[indexPath.item].event + "\n" + gameArr[indexPath.item].date
         if indexPath.item == selectIndex{

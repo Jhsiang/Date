@@ -22,6 +22,7 @@ class SettingViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet var startBtn: UIButton!
 
     @IBOutlet var countLabel: UILabel!
+    @IBOutlet var bgIV: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,10 @@ class SettingViewController: UIViewController,UITextFieldDelegate {
 //        UIView.animate(withDuration: 3) {
 //            <#code#>
 //        }
+
+        bgIV.image = UIImage(named: "background.jpg")
+        bgIV.contentMode = UIViewContentMode.scaleAspectFill
+        bgIV.alpha = 0.05
 
         //animateWithDuration
         // 字寬
