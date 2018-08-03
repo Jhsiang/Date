@@ -38,7 +38,6 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationItem.title = "請依日期 排列事件"
 
-
         self.view.backgroundColor = UIColor(red: 0.9, green: 1, blue: 0.9, alpha: 1)
         bgIV.image = UIImage(named: "background.jpg")
         bgIV.contentMode = UIViewContentMode.scaleAspectFill
@@ -166,34 +165,24 @@ class MainViewController: UIViewController,UICollectionViewDelegate,UICollection
         }
     }
 
-    @IBAction func leftClick(_ sender: UIButton) {
-        selectIndex -= selectIndex > 0 ? 2 : 0
+    @IBAction func directionClick(_ sender: UIButton) {
+        switch sender {
+        case upBtn:
+            selectIndex -= selectIndex > 0 ? 2 : 0
+        case downBtn:
+            selectIndex += selectIndex < gameArr.count - 1 ? 2 : 0
+        case lefBtn:
+            selectIndex -= selectIndex > 0 ? 2 : 0
+        case rightBtn:
+            selectIndex += selectIndex < gameArr.count - 1 ? 2 : 0
+        default:
+            DLog(message: "Direction button fail")
+        }
+
         myCollectionView.reloadData()
         let index = IndexPath(item: selectIndex, section: 0)
         myCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
     }
-
-    @IBAction func upClick(_ sender: UIButton) {
-        selectIndex -= selectIndex > 0 ? 2 : 0
-        myCollectionView.reloadData()
-        let index = IndexPath(item: selectIndex, section: 0)
-        myCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
-    }
-
-    @IBAction func rightClick(_ sender: UIButton) {
-        selectIndex += selectIndex < gameArr.count - 1 ? 2 : 0
-        myCollectionView.reloadData()
-        let index = IndexPath(item: selectIndex, section: 0)
-        myCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
-    }
-
-    @IBAction func downClick(_ sender: UIButton) {
-        selectIndex += selectIndex < gameArr.count - 1 ? 2 : 0
-        myCollectionView.reloadData()
-        let index = IndexPath(item: selectIndex, section: 0)
-        myCollectionView.scrollToItem(at: index, at: .centeredVertically, animated: true)
-    }
-
 
 //MARK: - UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

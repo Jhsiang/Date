@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -168,7 +168,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="120" height="180"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <action selector="enterClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="leJ-pm-gGn"/>
+                                            <action selector="enterClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="RND-kk-YHO"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -189,7 +189,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="85" height="180"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <action selector="rightClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="9Mn-Ab-hZu"/>
+                                            <action selector="directionClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="ejP-eR-F5C"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -208,7 +208,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="85" height="90"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <action selector="downClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="Bgz-9q-KDr"/>
+                                            <action selector="directionClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="Cfu-z1-ROi"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -227,7 +227,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="85" height="180"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <action selector="leftClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="CjA-AE-FFh"/>
+                                            <action selector="directionClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="iIH-io-Wlx"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -246,7 +246,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="85" height="90"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <action selector="upClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="18P-JX-w0B"/>
+                                            <action selector="directionClick:" destination="JlI-sn-SzO" eventType="touchUpInside" id="mQw-19-NaB"/>
                                         </connections>
                                     </button>
                                 </subviews>
